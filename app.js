@@ -8,10 +8,10 @@ var queryBuilder = function () {
 
 document.querySelector('#send').addEventListener('click', () => {
     //Create AJAX Object
-    var req = new XMLHttpRequest()
+    var req = new XMLHttpRequest();
 
     //Open Request
-    req.open('POST', 'https://api.openai.com/v1/completions')
+    req.open('POST', 'https://api.openai.com/v1/completions');
 
     //CallBack
     req.onreadystatechange = function () {
@@ -19,14 +19,11 @@ document.querySelector('#send').addEventListener('click', () => {
 
       //Parse text
       let data = JSON.parse(req.responseText)
-      console.log(data['choices'][0].text)
+      console.log(data)
       let text = data['choices'][0].text
 
       //Filter Text
       text = text.replace(/\n/gm, '')
-      //    console.log(text);
-
-      /* 	document.body.insertAdjacentHTML("beforeend", `<p>${text}</p>`) */
 
       setTimeout(function () {
         const instance = new TypeIt('#element', {
@@ -48,7 +45,7 @@ document.querySelector('#send').addEventListener('click', () => {
 
   req.setRequestHeader(
     'Authorization',
-    'Bearer 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'
+    'Bearer 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'
   )
 
   let test = queryBuilder()
