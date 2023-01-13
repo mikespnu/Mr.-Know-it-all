@@ -6,8 +6,9 @@ var queryBuilder = function () {
 }
 
 var makeReq = function() {
-
+  document.querySelector("#element").innerHTML = "";
   //create loading element
+  
   let image =  document.createElement("img");
   image.setAttribute("src", "assets/ellipsis-loader.gif");
   image.setAttribute("width", 35);
@@ -28,26 +29,45 @@ var makeReq = function() {
       if (req.readyState === 4) {
 
       // //Parse text
-      let data = JSON.parse(req.responseText)
-      // console.log(data)
-      let text = data['choices'][0].text
-      // //Filter Text
-      text = text.replace(/\n/gm, '')
+      var data = new Promise((resolve,reject)=>{
+        let data = JSON.parse(req.responseText)
+        // console.log(data)
+        let text = data['choices'][0].text
+        // //Filter Text
+        text = text.replace(/\n/gm, '');
+        if(text) {
+          resolve(text);
+        }
+      });
 
-      setTimeout(function () {
+      data
+      .then(txt => {
         image.remove();
         const instance = new TypeIt('#element', {
           speed: 50
         })
-          .type(`${text}`)
+          .type(`${txt}`)
           .pause(5000)
-          .delete(null, { speed: 6000 })
-          .go()
-      }, 300)
+          .delete(null, {speed: 5000})
+          .flush(()=> {
+            const instance = new TypeIt('#element', {
+              speed: 50
+            })
+              .type('Ask me something else')
+              .go();
+           });
+      })
 
-      setTimeout(() => {
-        document.querySelector('#element').innerText = 'Ask me something else'
-      }, 12000)
+      
+
+      
+
+
+
+
+
+        // document.querySelector('#element').innerText = `${txt}`
+    
     }
   }
 
