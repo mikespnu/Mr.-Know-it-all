@@ -5,8 +5,7 @@ var queryBuilder = function () {
   return `{"model": "text-davinci-003", "prompt": "${value}", "temperature": 0, "max_tokens": 400}`
 }
 
-
-document.querySelector('#send').addEventListener('click', () => {
+var makeReq = function() {
 
   //create loading element
   let image =  document.createElement("img");
@@ -57,4 +56,14 @@ document.querySelector('#send').addEventListener('click', () => {
   let test = queryBuilder()
   req.send(`data=${test}`);
   inputel.value = ''
+}
+
+document.querySelector('#send').addEventListener('click', () => {
+  makeReq();
+})
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Enter") {
+    makeReq();
+  }
 })
